@@ -9,7 +9,7 @@
       <li v-for="group in data" class="list-group" ref="listGroup">
         <h2 class="list-group-title">{{ group.title }}</h2>
         <ul>
-          <li v-for="item in group.items" class="list-group-item">
+          <li @click="selectItem(item)" v-for="item in group.items" class="list-group-item">
             <img v-lazy="item.avatar" class="avatar">
             <span class="name">{{ item.name }}</span>
           </li>
@@ -17,6 +17,7 @@
       </li>
     </ul>
     <div class="list-shortcut" 
+        v-show="data.length"
         @touchstart="onShortcutTouchStart" 
         @touchmove.stop.prevent="onShortcutTouchMove">
       <ul>
@@ -79,6 +80,9 @@
       }
     },
     methods: {
+      selectItem(item) {
+        this.$emit('select', item)
+      },
       // 点击跳转到相应的区块（如点 Z 跳到 Z 姓歌手的区域）
       onShortcutTouchStart(e) {
         let anchorIndex = getData(e.target, 'index')
@@ -97,9 +101,11 @@
 
         this._scrollTo(anchorIndex)
       },
+      // 监听滚动事件
       scroll(pos) {
         this.scrollY = pos.y
       },
+      // 点击字母跳到相应的区块
       _scrollTo(index) {
         if(!index && index !== 0) {
           return
@@ -112,6 +118,7 @@
         this.scrollY = -this.listHeight[index]
         this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)
       },
+      // 计算每个区块的高度（a 姓歌手区域、b 姓、c 姓。。。）
       _calculateHeight() {
         this.listHeight = []
         const list = this.$refs.listGroup

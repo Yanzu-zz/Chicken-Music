@@ -28,3 +28,36 @@ export function getData(el, name, val) {
     return el.getAttribute(name)
   }
 }
+
+let elementStyle = document.createElement('div').style
+// 主流浏览器内核
+let vendor = (() => {
+  let transfromNames = {
+    webkit: 'webkitTransform',
+    Moz: 'MozTransform',
+    ms: 'msTransform',
+    O: 'OTransform',
+    standard: 'transform'
+  }
+
+  for(let key in transfromNames) {
+    if(elementStyle[transfromNames[key]] !== undefined) {
+      return key
+    }
+  }
+
+  return false
+})()
+
+// 添加样式的浏览器前缀
+export function prefixStyle(style) {
+  if(vendor === false) {
+    return false
+  }
+
+  if(vendor === 'standard') {
+    return style
+  }
+
+  return vendor + style.charAt(0).toUpperCase() + style.substr(1)
+}
