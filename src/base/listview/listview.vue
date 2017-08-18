@@ -105,6 +105,9 @@
       scroll(pos) {
         this.scrollY = pos.y
       },
+      refresh() {
+        this.$refs.listview.refresh()
+      },
       // 点击字母跳到相应的区块
       _scrollTo(index) {
         if(!index && index !== 0) {

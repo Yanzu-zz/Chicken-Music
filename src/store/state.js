@@ -1,6 +1,6 @@
 // 管理所有状态的文件（原始数据）
-
 import { playMode } from 'common/js/config'
+import { loadSearch } from 'common/js/cache'
 
 const state = {
   // 存储歌手页面的数据
@@ -11,7 +11,10 @@ const state = {
   playlist: [], // 播放列表，存储当前需要播放的歌曲列表，可点击展开显示全部歌曲
   sequenceList: [], // 播放列表，与 playlist 不同的是当播放顺序为顺序播放的时候与 playlist 一致，当为随机播放的时候则与 playlist 不同
   mode: playMode.sequence, // 播放模式
-  currentIndex: -1 // 当前播放的歌曲
+  currentIndex: -1, // 当前播放的歌曲
+  disc: {}, // 歌单
+  topList: {}, // 排行榜列表
+  searchHistory: loadSearch() // 搜索历史
 }
 
 export default state

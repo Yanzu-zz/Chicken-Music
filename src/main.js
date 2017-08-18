@@ -8,7 +8,7 @@ import VuelazyLoad from 'vue-lazyload'
 
 import 'common/stylus/index.styl'
 
-// 去除手机浏览器默认的点击 300ms 延迟
+// Remove the default 300ms delay of phone browser
 fastclick.attach(document.body)
 
 Vue.use(VuelazyLoad, {

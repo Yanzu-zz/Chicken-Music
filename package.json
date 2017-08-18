@@ -1,5 +1,5 @@
 {
-  "name": "vue-music",
+  "name": "Chicken-Music",
   "version": "1.0.0",
   "description": "A Vue.js project",
   "author": "Yanzu",
@@ -16,7 +16,10 @@
     "better-scroll": "^0.2.4",
     "create-keyframe-animation": "^0.1.0",
     "fastclick": "^1.0.6",
+    "good-storage": "^1.0.1",
+    "js-base64": "^2.1.9",
     "jsonp": "^0.2.1",
+    "lyric-parser": "^1.0.1",
     "vue": "^2.3.3",
     "vue-lazyload": "^1.0.5",
     "vue-router": "^2.3.1",

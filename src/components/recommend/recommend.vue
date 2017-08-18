@@ -1,6 +1,6 @@
 <template>
-  <div class="recommend">
-    <scroll class="recommend-content" :data="discList">
+  <div class="recommend" ref="recommend">
+    <scroll ref="scroll" class="recommend-content" :data="discList">
       <div>
         <!-- recommends 是以异步的方式获取到的数据，所以会有延迟 -->
         <!-- 等数据 get 到之后在进行渲染操作  -->
@@ -16,7 +16,7 @@
         <div class="recommend-list">
           <h1 class="list-title">热门歌单推荐</h1>
           <ul>
-            <li v-for="item in discList" class="item">
+            <li @click="selectItem(item)" v-for="item in discList" class="item">
               <div class="icon">
                 <img class="needsclick" width="60" height="60" v-lazy="item.imgurl">
               </div>
@@ -32,6 +32,7 @@
         <loading :title="'稍等片刻，精彩马上到来！'"></loading>
       </div>
     </scroll>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -41,8 +42,11 @@
   import { ERR_OK } from 'api/config'
   import { getRecommend, getDiscList } from 'api/recommend'
   import Slider from 'base/slider/slider'
+  import { playlistMixin } from 'common/js/mixin'
+  import { mapMutations } from 'vuex'
 
   export default {
+    mixins: [playlistMixin],
     data() {
       return {
         recommends: [],
@@ -54,6 +58,17 @@
       this._getDiscList()
     },
     methods: {
+      handlePlaylist(playlist) {
+        const bottom = playlist.length > 0 ? '60px' : ''
+        this.$refs.recommend.style.bottom = bottom
+        this.$refs.scroll.refresh()
+      },
+      selectItem(item) {
+        this.$router.push({
+          path: `/recommend/${item.dissid}`
+        })
+        this.setDisc(item)
+      },
       _getRecommend() {
         getRecommend().then((res) => {
           if(res.code === ERR_OK) {
@@ -64,11 +79,13 @@
       _getDiscList() {
         getDiscList().then((res) => {
           if(res.code === ERR_OK) {
-            console.log(res)
             this.discList = res.data.list
           }
         })
-      }
+      },
+      ...mapMutations({
+        setDisc: 'SET_DISC'
+      })
     },
     components: {
       Slider,

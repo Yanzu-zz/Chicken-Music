@@ -1,4 +1,4 @@
-# vue-music
+# Chicken-Music
 
 > A Vue.js project
 
